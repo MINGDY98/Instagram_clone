@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="57dp">
+
+    <ImageButton
+        android:id="@+id/imageButton_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:src="@drawable/icon_camera_small"
+        android:layout_weight="0.05"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="25dp"
+        android:text="Instagram"
+        android:gravity="center_vertical"
+        android:layout_weight="0.8"/>
+    <ImageButton
+        android:id="@+id/imageButton_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:src="@drawable/icon_tv_small"
+        android:layout_weight="0.05"
+        />
+    <ImageButton
+        android:id="@+id/imageButton_paperairplain"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:src="@drawable/icon_paperairplain_small"
+        android:layout_weight="0.05"
+        />
+
+</LinearLayout>

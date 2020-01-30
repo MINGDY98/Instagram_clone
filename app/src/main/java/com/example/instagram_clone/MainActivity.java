@@ -4,11 +4,20 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
+
+    //이메일 비밀번호 로그인 모듈 변수
+    private FirebaseAuth mAuth;
+    //현재 로그인 된 유저 정보를 담을 변수
+    private FirebaseUser currentUser;
 
     //상태에 따른 툴바를 가져오기위한 변수
     int menuState=0; //0은 home, 1은 icon_find_small, 2는 heart 3은 profile
@@ -31,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        mAuth = FirebaseAuth.getInstance();
+
 
         //우리는 바텀 네비게이션을 사용할것입니다
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -81,6 +93,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    //로그인 되어있으면 currentUser 변수에 유저정보 할당. 아닌경우 login 페이지로 이동!
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        currentUser = mAuth.getCurrentUser();
+        if(currentUser == null){
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish();
+        }
     }
 
 }

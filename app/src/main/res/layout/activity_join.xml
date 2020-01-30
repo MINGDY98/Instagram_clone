@@ -31,7 +31,7 @@
         android:textSize="18dp"
         android:textStyle="bold"/>
     <Button
-        android:id="@+id/Button_joinButton"
+        android:id="@+id/Button_join_button"
         android:layout_marginTop="12dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
@@ -47,7 +47,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"/>
     <LinearLayout
-        android:id="@+id/LinearLayout_doLogin"
+        android:id="@+id/LinearLayout_do_login"
         android:layout_weight="0.2"
         android:layout_marginTop="30dp"
         android:layout_width="match_parent"

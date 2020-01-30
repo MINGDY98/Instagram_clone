@@ -1,7 +1,6 @@
 package com.example.instagram_clone;
 
 import android.content.Intent;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -18,7 +17,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
@@ -51,9 +49,9 @@ public class JoinActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         put_email = findViewById(R.id.EditText_email);
         put_pwd = findViewById(R.id.EditText_password);
-        join_button = findViewById(R.id.Button_joinButton);
+        join_button = findViewById(R.id.Button_join_button);
         join_button.setClickable(true);
-        do_login_button = findViewById(R.id.LinearLayout_doLogin);
+        do_login_button = findViewById(R.id.LinearLayout_do_login);
 
         do_login_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,6 +136,8 @@ public class JoinActivity extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
     }
+    //로그아웃 안했으면, 즉 로그인 되어있으면 자동으로 메인페이지로 이동시키기
+
 
 }
 

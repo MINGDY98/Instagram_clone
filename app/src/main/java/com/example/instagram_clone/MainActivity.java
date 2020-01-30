@@ -8,6 +8,8 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ImageButton;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private MenuFindAppBar menuFindAppBar = new MenuFindAppBar();
     private MenuHeartAppBar menuHeartAppBar = new MenuHeartAppBar();
     private MenuProfileAppBar menuProfileAppBar = new MenuProfileAppBar();
+    private ImageButton menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
                         transaction.replace(R.id.frame_layout, menuProfile);
                         transaction.replace(R.id.appbar,menuProfileAppBar);
                         transaction.commit();
+
                         break;
                     }
                 }

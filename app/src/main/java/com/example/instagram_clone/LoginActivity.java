@@ -37,9 +37,9 @@ public class LoginActivity extends AppCompatActivity {
 
         put_email = findViewById(R.id.EditText_email);
         put_pwd = findViewById(R.id.EditText_password);
-        login_button = findViewById(R.id.Button_loginButton);
+        login_button = findViewById(R.id.Button_login_button);
         login_button.setClickable(true);
-        doJoin = findViewById(R.id.LinearLayout_doJoin);
+        doJoin = findViewById(R.id.LinearLayout_do_join);
 
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,5 +97,15 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }
+    }
 
 }

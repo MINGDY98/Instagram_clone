@@ -19,7 +19,7 @@
         android:layout_marginRight="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="전화번호, 이메일 주소 또는 사용자 이름"/>
+        android:hint="이메일 주소"/>
     <EditText
         android:id="@+id/EditText_password"
         android:layout_marginTop="12dp"
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:hint="비밀번호"/>
     <Button
-        android:id="@+id/Button_loginButton"
+        android:id="@+id/Button_login_button"
         android:layout_marginTop="12dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
@@ -67,7 +67,7 @@
         android:textSize="18dp"
         android:gravity="center"/>
     <LinearLayout
-        android:id="@+id/LinearLayout_doJoin"
+        android:id="@+id/LinearLayout_do_join"
         android:layout_marginTop="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

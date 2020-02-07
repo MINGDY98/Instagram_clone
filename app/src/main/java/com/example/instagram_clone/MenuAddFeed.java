@@ -2,7 +2,6 @@ package com.example.instagram_clone;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -27,6 +27,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -38,6 +39,8 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
+
 import static android.app.Activity.RESULT_OK;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
@@ -49,11 +52,15 @@ public class MenuAddFeed extends Fragment {
     private ArrayList<String> permissions = new ArrayList();
     private View view;
     private ImageButton load_feed_image;//이미지 미리보기
+    private EditText feed_contents;
     MenuAddFeedAppBar menuAddFeedAppBar;//menuAddFeedAppBar넘기기
     protected Uri uri;//앨범선택했을때 사진의 uri
     private String currentPhotoPath;
-
     private StorageReference mStorageRef;//firebase storage사용
+    private FirebaseDatabase firebaseDatabase =FirebaseDatabase.getInstance();//firebase database사용
+    private String feed_num;
+    private int num=0;
+
 
     public MenuAddFeed(MenuAddFeedAppBar menuAddFeedAppBar) {
         menuAddFeedAppBar=menuAddFeedAppBar;
@@ -76,6 +83,7 @@ public class MenuAddFeed extends Fragment {
         });
 
         mStorageRef = FirebaseStorage.getInstance().getReference();//firebase storage 사용
+        feed_contents = view.findViewById(R.id.EditText_feed_contents);
         return view;
     }
 
@@ -268,7 +276,16 @@ public class MenuAddFeed extends Fragment {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         // Get a URL to the uploaded content
+                        // EditText에서 이미지 이름을 가져 와서 문자열 변수에 저장합니다.
+                        String TempImageName = feed_contents.getText (). toString (). trim ();
                         String downloadUrl = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
+                        feed_num=new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.KOREA).format(new Date())+num;
+                        DtoFeed dtoFeed = new DtoFeed();
+                        dtoFeed.setFeed_num(feed_num);
+                        num++;
+                        dtoFeed.setFeed_picture(downloadUrl);
+                        dtoFeed.setFeed_contents(TempImageName);
+                        firebaseDatabase.getReference().child("feeds").push().setValue(dtoFeed);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -280,4 +297,5 @@ public class MenuAddFeed extends Fragment {
                     }
                 });
     }
+
 }

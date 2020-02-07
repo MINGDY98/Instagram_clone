@@ -1,8 +1,8 @@
 package com.example.instagram_clone;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -26,6 +25,11 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,7 +38,6 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
 import static android.app.Activity.RESULT_OK;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
@@ -43,10 +46,18 @@ public class MenuAddFeed extends Fragment {
     private static final int READ_REQUEST_CODE                  = 42;//갤러리에서 이미지 가져오기 위한
 //    private static final int REQUEST_IMAGE_CAPTURE              = 1; //카메라 촬영을 위한.
     private static final int REQUEST_TAKE_PHOTO                 = 1; //
-    private View view;
-    private ImageButton load_feed_image;
     private ArrayList<String> permissions = new ArrayList();
+    private View view;
+    private ImageButton load_feed_image;//이미지 미리보기
+    MenuAddFeedAppBar menuAddFeedAppBar;//menuAddFeedAppBar넘기기
+    protected Uri uri;//앨범선택했을때 사진의 uri
     private String currentPhotoPath;
+
+    private StorageReference mStorageRef;//firebase storage사용
+
+    public MenuAddFeed(MenuAddFeedAppBar menuAddFeedAppBar) {
+        menuAddFeedAppBar=menuAddFeedAppBar;
+    }
 
     @Nullable
     @Override
@@ -54,7 +65,6 @@ public class MenuAddFeed extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_add_feed, container, false);
-
         //카메라 & 외부저장소 접근 권한 가져오기
         checkPermission();
         load_feed_image = view.findViewById(R.id.ImageButton_load_feed_image);
@@ -65,6 +75,7 @@ public class MenuAddFeed extends Fragment {
             }
         });
 
+        mStorageRef = FirebaseStorage.getInstance().getReference();//firebase storage 사용
         return view;
     }
 
@@ -154,13 +165,18 @@ public class MenuAddFeed extends Fragment {
         }
     }
 
+    public Uri getUri() {
+        Log.d("smile",uri.toString());
+        return uri;
+    }
+
     @Override//문서를 선택한 후에 호출되는 함수
     public void onActivityResult(int requestCode, int resultCode,
                                  Intent resultData) {
         if (requestCode == READ_REQUEST_CODE && resultCode == RESULT_OK) {
             //uri가져오기
-            Uri uri = null;
             if(resultData!=null) {
+                uri = null;
                 uri = resultData.getData();
                 Log.d(TAG, "Uri: " + uri.toString());
                 load_feed_image.setImageURI(uri);//이미지버튼에 붙이기
@@ -239,5 +255,29 @@ public class MenuAddFeed extends Fragment {
                 e.printStackTrace();
             }
         }
+    }
+
+    protected void uploadFile(){//firebase storage에 삽입
+
+//        Uri file = Uri.fromFile(new File("path/to/images/rivers.jpg"));
+        StorageReference storageReference = FirebaseStorage.getInstance()
+                .getReference()
+                .child(uri.getLastPathSegment());
+        storageReference.putFile(uri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // Get a URL to the uploaded content
+                        String downloadUrl = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle unsuccessful uploads
+                        Toast.makeText(getActivity(), "실패했습니다 와이파이 연결상태 체크 필요"+exception.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.d("smile",exception.getMessage());
+                    }
+                });
     }
 }

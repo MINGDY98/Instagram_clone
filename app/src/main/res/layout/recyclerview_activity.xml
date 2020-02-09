@@ -23,7 +23,6 @@
                 android:layout_gravity="center_vertical"
                 android:clickable="true">
 
-                /*fresco*/
                 <ImageView
                     android:id="@+id/user_image"
                     android:layout_width="36dp"
@@ -50,8 +49,8 @@
                 />
         </LinearLayout>
         /*fresco*/
-        <ImageView
-            android:id="@+id/ImageView_postImg"
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/ImageView_feed_img"
             android:layout_width="match_parent"
             android:layout_height="260dp" />
 
@@ -93,7 +92,7 @@
 
         </LinearLayout>
         <TextView
-            android:id="@+id/TextView_postInfo"
+            android:id="@+id/TextView_feed_Info"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:text="information"

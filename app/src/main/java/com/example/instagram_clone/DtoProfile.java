@@ -6,10 +6,13 @@ public class DtoProfile implements Serializable {
 
     private String profile_num;
     private String profile_name;
+    private String account_ID;
+    private String account_password;
     private String profile_picture;
+    private String feed_folder;
     private String follower;
     private String following;
-    private String feed_folder;
+
 
 
     public String getProfile_num() {
@@ -60,4 +63,19 @@ public class DtoProfile implements Serializable {
         this.feed_folder = feed_folder;
     }
 
+    public String getAccount_ID() {
+        return account_ID;
+    }
+
+    public void setAccount_ID(String account_ID) {
+        this.account_ID = account_ID;
+    }
+
+    public String getAccount_password() {
+        return account_password;
+    }
+
+    public void setAccount_password(String account_password) {
+        this.account_password = account_password;
+    }
 }

@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
         if(currentUser != null){
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
-        }
+        }//로그아웃 안했으면, 즉 로그인 되어있으면 자동으로 메인페이지로 이동시키기
     }
 
 }

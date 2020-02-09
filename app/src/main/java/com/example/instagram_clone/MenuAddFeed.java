@@ -27,7 +27,12 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -53,14 +58,15 @@ public class MenuAddFeed extends Fragment {
     private View view;
     private ImageButton load_feed_image;//이미지 미리보기
     private EditText feed_contents;
-    MenuAddFeedAppBar menuAddFeedAppBar;//menuAddFeedAppBar넘기기
+    public MenuAddFeedAppBar menuAddFeedAppBar;//menuAddFeedAppBar넘기기
     protected Uri uri;//앨범선택했을때 사진의 uri
     private String currentPhotoPath;
     private StorageReference mStorageRef;//firebase storage사용
     private FirebaseDatabase firebaseDatabase =FirebaseDatabase.getInstance();//firebase database사용
-    private String feed_num;
-    private int num=0;
-
+//    private String feed_num;//피드번호
+//    private int num=0;//피드번호에추가할 전역변수
+    private String parent;//힘겹게 얻은 firebase database의 부모 name
+    MainActivity mainActivity = new MainActivity();
 
     public MenuAddFeed(MenuAddFeedAppBar menuAddFeedAppBar) {
         menuAddFeedAppBar=menuAddFeedAppBar;
@@ -279,13 +285,31 @@ public class MenuAddFeed extends Fragment {
                         // EditText에서 이미지 이름을 가져 와서 문자열 변수에 저장합니다.
                         String TempImageName = feed_contents.getText (). toString (). trim ();
                         String downloadUrl = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
-                        feed_num=new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.KOREA).format(new Date())+num;
-                        DtoFeed dtoFeed = new DtoFeed();
-                        dtoFeed.setFeed_num(feed_num);
-                        num++;
+
+                        final DtoFeed dtoFeed = new DtoFeed();//Dtofeed
+
+                        // Find all users which match the child node email.
+                        DatabaseReference ref = firebaseDatabase.getReference("profiles");
+                        ref.orderByChild("profile_num").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
+                                    Log.d("fullmoon","이건가"+childSnapshot.child("profile_name").getValue().toString());
+                                    parent=childSnapshot.child("profile_name").getValue().toString();
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        dtoFeed.setProfile_name(parent);
                         dtoFeed.setFeed_picture(downloadUrl);
                         dtoFeed.setFeed_contents(TempImageName);
                         firebaseDatabase.getReference().child("feeds").push().setValue(dtoFeed);
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

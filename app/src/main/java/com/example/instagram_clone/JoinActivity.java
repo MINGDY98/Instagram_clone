@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.regex.Pattern;
 
@@ -31,13 +32,16 @@ public class JoinActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     //현재 로그인 된 유저 정보를 담을 변수
     private FirebaseUser currentUser;
-
+    private FirebaseDatabase firebaseDatabase =FirebaseDatabase.getInstance();//firebase database사용
     private EditText put_email;
     private EditText put_pwd;
+    private EditText profile_name;
     private Button join_button;
     private LinearLayout do_login_button;
     private String email = "";
     private String pwd = "";
+    private String pro_name = "";
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +51,7 @@ public class JoinActivity extends AppCompatActivity {
 
 
         mAuth = FirebaseAuth.getInstance();
+        profile_name = findViewById(R.id.EditText_profile_name);
         put_email = findViewById(R.id.EditText_email);
         put_pwd = findViewById(R.id.EditText_password);
         join_button = findViewById(R.id.Button_join_button);
@@ -65,8 +70,7 @@ public class JoinActivity extends AppCompatActivity {
             public void onClick(View v) {
                 email = put_email.getText().toString();
                 pwd = put_pwd.getText().toString();
-                Toast.makeText(JoinActivity.this,email +"/=가입 버튼 눌리고" +"/" + pwd,Toast.LENGTH_SHORT).show();
-
+                pro_name=profile_name.getText().toString();
                 if(isValidEmail()&&isValidPwd()){
                     joinStart(email,pwd);
                 }
@@ -101,7 +105,7 @@ public class JoinActivity extends AppCompatActivity {
         }
     }
     //가입 함수
-    public void joinStart(String email,String pwd) {
+    public void joinStart(String email, final String pwd) {
 
         mAuth.createUserWithEmailAndPassword(email,pwd)
                 .addOnCompleteListener(this,new OnCompleteListener<AuthResult>() {
@@ -120,9 +124,17 @@ public class JoinActivity extends AppCompatActivity {
                             }
                         }
                         else{
-                            Toast.makeText(JoinActivity.this,"진입",Toast.LENGTH_SHORT).show();
                             currentUser = mAuth.getCurrentUser();
-                            Toast.makeText(JoinActivity.this, "가입 성공  " + "/" + currentUser.getEmail() ,Toast.LENGTH_SHORT).show();
+                            DtoProfile dtoProfile = new DtoProfile();
+                            DtoFeed dtoFeed = new DtoFeed();
+                            dtoFeed.setProfile_name(pro_name);
+                            dtoProfile.setProfile_num(mAuth.getUid());
+                            dtoProfile.setProfile_name(pro_name);
+                            dtoProfile.setAccount_ID(currentUser.getEmail());
+                            dtoProfile.setAccount_password(pwd);
+                            firebaseDatabase.getReference().child("profiles").push().setValue(dtoProfile);
+                            
+                            Toast.makeText(JoinActivity.this, pro_name+"님 가입 성공  " + "/" + currentUser.getEmail() ,Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(JoinActivity.this, MainActivity.class));
                             finish();
 
@@ -136,18 +148,7 @@ public class JoinActivity extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
     }
-    //로그아웃 안했으면, 즉 로그인 되어있으면 자동으로 메인페이지로 이동시키기
+
 
 
 }
-
-/*                        if (!task.isSuccessful()) {
-                            try {
-                                throw task.getException();
-                            } catch (FirebaseAuthUserCollisionException e) {
-                                Toast.makeText(JoinActivity.this,"이미존재하는 email 입니다." ,Toast.LENGTH_SHORT).show();
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }*/

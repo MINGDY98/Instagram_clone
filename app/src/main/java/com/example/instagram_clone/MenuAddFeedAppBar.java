@@ -1,6 +1,5 @@
 package com.example.instagram_clone;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

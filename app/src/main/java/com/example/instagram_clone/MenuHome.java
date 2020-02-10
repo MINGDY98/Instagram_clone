@@ -41,21 +41,14 @@ public class MenuHome extends Fragment {
 
             Context context = view.getContext();
             recyclerView = view.findViewById(R.id.recycler_view);
-
-            // use this setting to improve performance if you know that changes
-            // in content do not change the layout size of the RecyclerView
-        recyclerView.setHasFixedSize(true);
-
-            // use a linear layout manager
+            recyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(context);
-        recyclerView.setLayoutManager(layoutManager);
-
+            recyclerView.setLayoutManager(layoutManager);
             mAdapter = new MyAdapter(dtoFeeds,context);
             recyclerView.setAdapter(mAdapter);
             //1.화면이 로딩 ->정보를 받아온다.
             //2. 정보 -> 어댑터에 넘겨준다.
             //3. 어댑터-> 셋팅
-            // specify an adapter (see also next example)
 
             database = FirebaseDatabase.getInstance();
             /*data변경이 감지될때마다 모든 데이터를 다시 recyclerview에 보여주기위해*/

@@ -58,7 +58,6 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 
     public void loginStart(String email, String password){
@@ -83,7 +82,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 }else{
 
-
                     currentUser = mAuth.getCurrentUser();
 
                     Toast.makeText(LoginActivity.this, "로그인 성공"  + "/" + currentUser.getEmail() ,Toast.LENGTH_SHORT).show();
@@ -95,7 +93,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
 
     @Override
     public void onStart() {

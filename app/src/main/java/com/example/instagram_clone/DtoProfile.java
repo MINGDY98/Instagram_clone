@@ -13,8 +13,6 @@ public class DtoProfile implements Serializable {
     private String follower;
     private String following;
 
-
-
     public String getProfile_num() {
         return profile_num;
     }

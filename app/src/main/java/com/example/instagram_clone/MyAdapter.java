@@ -35,7 +35,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             user_name = v.findViewById(R.id.user_name);
             feed_img = v.findViewById(R.id.ImageView_feed_img);
             feed_info = v.findViewById(R.id.TextView_feed_Info);
-
         }
     }
 
@@ -67,7 +66,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         Uri uri = Uri.parse(dtoFeed.getFeed_picture());
         Log.d("fullmoon",uri.toString());
         holder.feed_img.setImageURI(uri);
-//        Glide.with(holder.itemView.getContext()).load(dtoFeed.getFeed_picture()).into(holder.feed_img);
     }
 
     // Return the size of your dataset (invoked by the layout manager)

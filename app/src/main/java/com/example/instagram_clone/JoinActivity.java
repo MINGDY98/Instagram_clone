@@ -42,13 +42,11 @@ public class JoinActivity extends AppCompatActivity {
     private String pwd = "";
     private String pro_name = "";
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
-
 
         mAuth = FirebaseAuth.getInstance();
         profile_name = findViewById(R.id.EditText_profile_name);
@@ -74,7 +72,6 @@ public class JoinActivity extends AppCompatActivity {
                 if(isValidEmail()&&isValidPwd()){
                     joinStart(email,pwd);
                 }
-
             }
         });
     }

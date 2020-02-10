@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        menuAddFeed = new MenuAddFeed(menuAddFeedAppBar);
+        menuAddFeed = new MenuAddFeed();
         menuAddFeedAppBar = new MenuAddFeedAppBar(menuAddFeed);
         //회원가&로그인 용
         mAuth = FirebaseAuth.getInstance();

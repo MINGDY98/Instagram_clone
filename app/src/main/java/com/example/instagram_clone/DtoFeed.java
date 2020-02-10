@@ -8,15 +8,7 @@ public class DtoFeed implements Serializable {
     private String feed_picture;
     private String feed_contents;
     private String profile_name;
-/*
-    public String getFeed_num() {
-        return feed_num;
-    }
 
-    public void setFeed_num(String feed_num) {
-        this.feed_num = feed_num;
-    }
-*/
     public String getFeed_picture() {
         return feed_picture;
     }

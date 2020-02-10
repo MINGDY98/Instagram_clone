@@ -44,7 +44,6 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
 import static androidx.constraintlayout.widget.Constraints.TAG;
@@ -52,25 +51,18 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 public class MenuAddFeed extends Fragment {
     private static final int REQUEST_ID_MULTIPLE_PERMISSIONS    = 3; //여러 권한체크를 위한
     private static final int READ_REQUEST_CODE                  = 42;//갤러리에서 이미지 가져오기 위한
-//    private static final int REQUEST_IMAGE_CAPTURE              = 1; //카메라 촬영을 위한.
-    private static final int REQUEST_TAKE_PHOTO                 = 1; //
+    private static final int REQUEST_TAKE_PHOTO                 = 1; //카메라 촬영을 위한
     private ArrayList<String> permissions = new ArrayList();
     private View view;
     private ImageButton load_feed_image;//이미지 미리보기
     private EditText feed_contents;
-    public MenuAddFeedAppBar menuAddFeedAppBar;//menuAddFeedAppBar넘기기
     protected Uri uri;//앨범선택했을때 사진의 uri
     private String currentPhotoPath;
+    String downloadUrl="";//안쓸수도
     private StorageReference mStorageRef;//firebase storage사용
     private FirebaseDatabase firebaseDatabase =FirebaseDatabase.getInstance();//firebase database사용
-//    private String feed_num;//피드번호
-//    private int num=0;//피드번호에추가할 전역변수
-    private String parent;//힘겹게 얻은 firebase database의 부모 name
+    private String parent=null;//힘겹게 얻은 user_name
     MainActivity mainActivity = new MainActivity();
-
-    public MenuAddFeed(MenuAddFeedAppBar menuAddFeedAppBar) {
-        menuAddFeedAppBar=menuAddFeedAppBar;
-    }
 
     @Nullable
     @Override
@@ -244,7 +236,6 @@ public class MenuAddFeed extends Fragment {
         getActivity().sendBroadcast(mediaScanIntent);
     }
 */
-
     //sw
     public static void SaveBitmapToFileCache(Bitmap bitmap, String strFilePath, String filename) {
         File file = new File(strFilePath);
@@ -263,7 +254,6 @@ public class MenuAddFeed extends Fragment {
             e.printStackTrace();
         } finally {
             try {
-
                 out.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -283,33 +273,41 @@ public class MenuAddFeed extends Fragment {
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         // Get a URL to the uploaded content
                         // EditText에서 이미지 이름을 가져 와서 문자열 변수에 저장합니다.
-                        String TempImageName = feed_contents.getText (). toString (). trim ();
-                        String downloadUrl = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
-
-                        final DtoFeed dtoFeed = new DtoFeed();//Dtofeed
-
-                        // Find all users which match the child node email.
-                        DatabaseReference ref = firebaseDatabase.getReference("profiles");
-                        ref.orderByChild("profile_num").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        final String TempImageName = feed_contents.getText (). toString (). trim ();
+//시작
+                        taskSnapshot.getMetadata().getReference().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
-                                    Log.d("fullmoon","이건가"+childSnapshot.child("profile_name").getValue().toString());
-                                    parent=childSnapshot.child("profile_name").getValue().toString();
-                                }
+                            public void onSuccess(Uri uri) {
+                                // Got the uri
+                                downloadUrl = uri.toString();
+                                Log.d("fullmon2",downloadUrl);
+                                final DtoFeed dtoFeed = new DtoFeed();//Dtofeed
+                                // Find all users which match the child node email.
+                                DatabaseReference ref = firebaseDatabase.getReference("profiles");
+                                ref.orderByChild("profile_num").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
+                                            Log.d("fullmoon","이건가"+childSnapshot.child("profile_name").getValue().toString());
+                                            parent=childSnapshot.child("profile_name").getValue().toString();
+                                            Log.d("fullmoon","이게먼전가"+parent);
+                                            dtoFeed.setProfile_name(parent);
+                                            dtoFeed.setFeed_picture(downloadUrl);
+                                            dtoFeed.setFeed_contents(TempImageName);
+                                            firebaseDatabase.getReference().child("feeds").push().setValue(dtoFeed);
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    }
+                                });
                             }
+                        }).addOnFailureListener(new OnFailureListener() {
                             @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                            public void onFailure(@NonNull Exception exception) {
+                                // Handle any errors
                             }
                         });
-
-                        dtoFeed.setProfile_name(parent);
-                        dtoFeed.setFeed_picture(downloadUrl);
-                        dtoFeed.setFeed_contents(TempImageName);
-                        firebaseDatabase.getReference().child("feeds").push().setValue(dtoFeed);
-
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -321,5 +319,4 @@ public class MenuAddFeed extends Fragment {
                     }
                 });
     }
-
 }

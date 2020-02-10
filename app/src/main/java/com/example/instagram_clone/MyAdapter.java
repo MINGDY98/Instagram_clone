@@ -66,7 +66,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.feed_info.setText(dtoFeed.getFeed_contents());
         Uri uri = Uri.parse(dtoFeed.getFeed_picture());
         Log.d("fullmoon",uri.toString());
-        holder.feed_img.setImageURI(uri.toString());
+        holder.feed_img.setImageURI(uri);
 //        Glide.with(holder.itemView.getContext()).load(dtoFeed.getFeed_picture()).into(holder.feed_img);
     }
 

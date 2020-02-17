@@ -3,9 +3,101 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <LinearLayout
+        android:layout_marginRight="12dp"
+        android:layout_marginLeft="12dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="MENU 4"/>
+        android:layout_height="0dp"
+        android:layout_weight="1.25"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="0.8">
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.6"
+                android:layout_marginRight="12dp"/>
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.2"/>
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.2"/>
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.2"/>
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.10"
+            android:text="밍디"
+            android:textSize="12dp"
+            android:textColor="@android:color/black"/>
+        <TextView
+            android:background="@drawable/rectangle_edge"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.19"
+            android:text="프로필 수정"
+            android:textSize="14dp"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:textStyle="bold"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_story_folder"
+            android:scrollbars="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.85"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:background="@drawable/black_rectangle"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.22"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/icon_9view"
+                android:gravity="center" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="55dp"
+                android:background="@drawable/icon_tagged"
+                android:gravity="center" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:background="@drawable/black_rectangle"
+        android:id="@+id/recycler_view_feed_folder"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.8"/>
 </LinearLayout>

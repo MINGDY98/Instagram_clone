@@ -1,7 +1,6 @@
 package com.example.instagram_clone;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +30,6 @@ public class MenuAddFeedAppBar extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if((menuAddFeed.getUri()!=null)&&(menuAddFeed.getFeed_content()!=null)) {
-                        Toast.makeText(getActivity(),menuAddFeed.getFeed_content()+"글입니다",Toast.LENGTH_SHORT).show();
                         menuAddFeed.uploadFile();//'공유' 누를 시 넘어감.
                     }
                     else{

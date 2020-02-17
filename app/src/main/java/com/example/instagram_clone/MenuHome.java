@@ -30,7 +30,6 @@ public class MenuHome extends Fragment {
     //firebasedatabase에서 정보가져오기
     private FirebaseDatabase database;
     private List<DtoFeed> dtoFeeds = new ArrayList<>();
-    private List<String> uidLiss = new ArrayList<>();//왜쓰는거지
 
     @Nullable
     @Override
@@ -59,14 +58,11 @@ public class MenuHome extends Fragment {
                     if(dataSnapshot.exists()) {
                         dtoFeeds.clear();
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            Log.d("fullmoon","데이터가있어여");
                             DtoFeed dtoFeed = snapshot.getValue(DtoFeed.class);
                             System.out.println(dtoFeed.getProfile_name());
                             dtoFeeds.add(dtoFeed);
                         }
                         mAdapter.notifyDataSetChanged();
-                    }else{
-                        Log.d("fullmoon","데이터가없어염");
                     }
                 }
 

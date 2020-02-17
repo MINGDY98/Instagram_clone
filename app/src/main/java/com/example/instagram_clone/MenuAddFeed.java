@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,7 +24,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -40,20 +38,15 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
-import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class MenuAddFeed extends Fragment {
 
@@ -100,7 +93,6 @@ public class MenuAddFeed extends Fragment {
         feed_contents.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -110,7 +102,6 @@ public class MenuAddFeed extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
         return view;
@@ -178,7 +169,6 @@ public class MenuAddFeed extends Fragment {
     }
 
     public void takePhoto() {
-        Log.d(TAG, "takePhoto()");
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, REQUEST_TAKE_PHOTO);
     }
@@ -191,7 +181,6 @@ public class MenuAddFeed extends Fragment {
             if(resultData!=null) {
                 uri = null;
                 uri = resultData.getData();
-                Log.d("happyy", "앨범Uri: " + uri.toString());
                 load_feed_image.setImageURI(uri);//이미지버튼에 붙이기
                 load_feed_image.setScaleType(ImageButton.ScaleType.FIT_XY);
             }else{
@@ -199,10 +188,7 @@ public class MenuAddFeed extends Fragment {
             }
         }
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
-            Log.d("happyy",  "2들어옴" + resultData.getExtras());
             if(resultData!=null) {
-                //uri = resultData.getData();//
-                //Log.d("happyy", "카메라happy: " + "3들어옴"+uri);
                 Bitmap imageBitmap = (Bitmap) resultData.getExtras().get("data");
                 load_feed_image.setImageBitmap(imageBitmap);
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -238,7 +224,6 @@ public class MenuAddFeed extends Fragment {
 
     protected void uploadFile() {//firebase storage에 삽입
 
-//        if (uri != null) {
             StorageReference storageReference = FirebaseStorage.getInstance()
                     .getReference()
                     .child(uri.getLastPathSegment());
@@ -247,14 +232,13 @@ public class MenuAddFeed extends Fragment {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             // Get a URL to the uploaded content
-                            uri=null;//이게과연어떤영향을미칠지..
+                            uri=null;
                             taskSnapshot.getMetadata().getReference().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     // Got the uri
                                     downloadUrl=null;
                                     downloadUrl = uri.toString();
-                                    Log.d("fullmon2", downloadUrl);
                                     final DtoFeed dtoFeed = new DtoFeed();//Dtofeed
                                     // Find all users which match the child node email.
                                     DatabaseReference ref = firebaseDatabase.getReference("profiles");
@@ -268,7 +252,6 @@ public class MenuAddFeed extends Fragment {
                                                 dtoFeed.setFeed_contents(feed_content);
                                                 firebaseDatabase.getReference().child("feeds").push().setValue(dtoFeed);
                                                 feed_content=null;
-                                                Toast.makeText(getActivity(),"사진있는 게시물이 되버림 성공.",Toast.LENGTH_SHORT).show();
                                                 startActivity(new Intent(getContext(), MainActivity.class));//마무리하면 main화면으로
                                             }
                                         }
@@ -291,7 +274,6 @@ public class MenuAddFeed extends Fragment {
                         public void onFailure(@NonNull Exception exception) {
                             // Handle unsuccessful uploads
                             Toast.makeText(getActivity(), "실패했습니다 와이파이 연결상태 체크 필요" + exception.getMessage(), Toast.LENGTH_SHORT).show();
-                            Log.d("smile", exception.getMessage());
                         }
                     });
             }

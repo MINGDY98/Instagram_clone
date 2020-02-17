@@ -14,7 +14,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="mingd_98"
-            android:textSize="24dp"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
             android:gravity="center_vertical"/>
         <ImageView
             android:layout_gravity="center_vertical"

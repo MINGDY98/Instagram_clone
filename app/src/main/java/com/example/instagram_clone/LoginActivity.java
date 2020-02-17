@@ -19,7 +19,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
-import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -61,12 +60,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void loginStart(String email, String password){//로그인하기
-        Toast.makeText(LoginActivity.this,"loginStart 함수 안으로" ,Toast.LENGTH_SHORT).show();
         mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
 
-                Toast.makeText(LoginActivity.this,"mAuth. onComplete 함수" ,Toast.LENGTH_SHORT).show();
                 if (!task.isSuccessful()) {
                     try {
                         throw task.getException();
@@ -98,9 +95,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }//로그인 버튼 눌렀을 경우, 로그아웃 안했으면, 즉 로그인 되어있으면 자동으로 메인페이지로 이동시키기
-        else{
-            startActivity(new Intent(LoginActivity.this, JoinActivity.class));
-            finish();
+        else{//로그인 기록이없다면 회원가입창으루
         }
     }
 

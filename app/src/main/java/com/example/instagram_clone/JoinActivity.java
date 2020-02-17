@@ -31,7 +31,6 @@ public class JoinActivity extends AppCompatActivity {
     //이메일 비밀번호 로그인 모듈 변수
     private FirebaseAuth mAuth;
     //현재 로그인 된 유저 정보를 담을 변수
-    private FirebaseUser currentUser;
     private FirebaseDatabase firebaseDatabase =FirebaseDatabase.getInstance();//firebase database사용
     private EditText put_email;
     private EditText put_pwd;
@@ -109,7 +108,7 @@ public class JoinActivity extends AppCompatActivity {
 
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (!task.isSuccessful()) {
+                        if (!task.isSuccessful()) {//가입이 안되는 경우
                             Toast.makeText(JoinActivity.this, "mAuth. onComplete 함수", Toast.LENGTH_SHORT).show();
                             if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                                 // 이미 존재 할 때
@@ -120,19 +119,16 @@ public class JoinActivity extends AppCompatActivity {
                                 Toast.makeText(JoinActivity.this,"다른예외"+task.getException().getMessage() ,Toast.LENGTH_SHORT).show();
                             }
                         }
-                        else{
-                            currentUser = mAuth.getCurrentUser();
+                        else{//가입이 되는 경우에
                             DtoProfile dtoProfile = new DtoProfile();
-                            DtoFeed dtoFeed = new DtoFeed();
-                            dtoFeed.setProfile_name(pro_name);
                             dtoProfile.setProfile_num(mAuth.getUid());
                             dtoProfile.setProfile_name(pro_name);
-                            dtoProfile.setAccount_ID(currentUser.getEmail());
+                            dtoProfile.setAccount_ID(mAuth.getCurrentUser().getEmail());//현재 유저의 이메일
                             dtoProfile.setAccount_password(pwd);
-                            firebaseDatabase.getReference().child("profiles").push().setValue(dtoProfile);
+                            firebaseDatabase.getReference().child("profiles").push().setValue(dtoProfile);//db에 profile관련정보 넣기
                             
-                            Toast.makeText(JoinActivity.this, pro_name+"님 가입 성공  " + "/" + currentUser.getEmail() ,Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(JoinActivity.this, MainActivity.class));
+                            Toast.makeText(JoinActivity.this, pro_name+"님 가입 성공  " + "/" + mAuth.getCurrentUser().getEmail() ,Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(JoinActivity.this, MainActivity.class));//마무리하면 main화면으로
                             finish();
 
                         }
@@ -143,7 +139,6 @@ public class JoinActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
     }
 
 

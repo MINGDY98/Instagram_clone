@@ -13,7 +13,7 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
+
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -63,9 +63,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         DtoFeed dtoFeed = mDataset.get(position);
         holder.user_name.setText(dtoFeed.getProfile_name());
         holder.feed_info.setText(dtoFeed.getFeed_contents());
-        Uri uri = Uri.parse(dtoFeed.getFeed_picture());
-        Log.d("fullmoon",uri.toString());
-        holder.feed_img.setImageURI(uri);
+        if(dtoFeed.getFeed_picture()!=null) {
+            Uri uri = Uri.parse(dtoFeed.getFeed_picture());
+            Log.d("fullmoon", "되나?"+uri.toString());
+            holder.feed_img.setImageURI(uri);
+            holder.feed_img.setScaleType(SimpleDraweeView.ScaleType.FIT_XY);
+        }
+        else{
+            Log.d("fullmoon", "흠 else");
+        }
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)

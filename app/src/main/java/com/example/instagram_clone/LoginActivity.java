@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button login_button;
     private LinearLayout doJoin;
     private FirebaseAuth mAuth;
-    private FirebaseUser currentUser;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,14 +53,14 @@ public class LoginActivity extends AppCompatActivity {
 
         doJoin.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {//회원가입버튼누르면 그 화면으로
                 startActivity(new Intent(LoginActivity.this, JoinActivity.class));
                 finish();
             }
         });
     }
 
-    public void loginStart(String email, String password){
+    public void loginStart(String email, String password){//로그인하기
         Toast.makeText(LoginActivity.this,"loginStart 함수 안으로" ,Toast.LENGTH_SHORT).show();
         mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
@@ -81,11 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                 }else{
-
-                    currentUser = mAuth.getCurrentUser();
-
-                    Toast.makeText(LoginActivity.this, "로그인 성공"  + "/" + currentUser.getEmail() ,Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(LoginActivity.this, "로그인 성공"  + "/" + mAuth.getCurrentUser().getEmail() ,Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();
                 }
@@ -98,11 +94,14 @@ public class LoginActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
+        if( mAuth.getCurrentUser() != null){
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
-        }//로그아웃 안했으면, 즉 로그인 되어있으면 자동으로 메인페이지로 이동시키기
+        }//로그인 버튼 눌렀을 경우, 로그아웃 안했으면, 즉 로그인 되어있으면 자동으로 메인페이지로 이동시키기
+        else{
+            startActivity(new Intent(LoginActivity.this, JoinActivity.class));
+            finish();
+        }
     }
 
 }

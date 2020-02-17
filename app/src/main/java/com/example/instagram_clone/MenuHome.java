@@ -52,6 +52,7 @@ public class MenuHome extends Fragment {
 
             database = FirebaseDatabase.getInstance();
             /*data변경이 감지될때마다 모든 데이터를 다시 recyclerview에 보여주기위해*/
+        //메뉴
             database.getReference().child("feeds").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

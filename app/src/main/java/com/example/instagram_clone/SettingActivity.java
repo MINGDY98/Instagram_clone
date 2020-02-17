@@ -22,14 +22,14 @@ public class SettingActivity extends AppCompatActivity {
         back_arrow = findViewById(R.id.ImageButton_back_to_profile);
         log_out.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {//로그아웃 버튼 누를시, 로그인 창으로
                 startActivity(new Intent(SettingActivity.this, LoginActivity.class));
                 FirebaseAuth.getInstance().signOut();
                 finish();
             }
         });
 
-        back_arrow.setOnClickListener(new View.OnClickListener() {
+        back_arrow.setOnClickListener(new View.OnClickListener() {//뒤로가기버튼 누를시 현재화면 종료
             @Override
             public void onClick(View v) {
                 finish();

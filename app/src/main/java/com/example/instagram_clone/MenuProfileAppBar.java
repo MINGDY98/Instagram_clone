@@ -20,13 +20,12 @@ public class MenuProfileAppBar extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.toolbar_profile, container, false);
-        final Context context = getContext();
         menu = view.findViewById(R.id.imageButton_menu);
 
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(context,SettingActivity.class));
+            public void onClick(View v) {//프로필 fragment의 menu를 누를시 설정창으로
+                startActivity(new Intent(getContext(),SettingActivity.class));
             }
         });
 

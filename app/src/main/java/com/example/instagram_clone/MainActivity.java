@@ -16,8 +16,6 @@ public class MainActivity extends AppCompatActivity {
 
     //이메일 비밀번호 로그인 모듈 변수
     private FirebaseAuth mAuth;
-    //현재 로그인 된 유저 정보를 담을 변수
-    private FirebaseUser currentUser;
 
     //상태에 따른 툴바를 가져오기위한 변수
     int menuState=0; //0은 home, 1은 icon_find_small, 2는 heart 3은 profile 4는 addfeed
@@ -187,8 +185,7 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        currentUser = mAuth.getCurrentUser();
-        if(currentUser == null){
+        if(mAuth.getCurrentUser() == null){
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
         }

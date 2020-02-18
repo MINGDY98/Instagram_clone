@@ -1,4 +1,4 @@
-package com.example.instagram_clone;
+package com.example.instagram_clone.view.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +8,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageButton;
+
+import com.example.instagram_clone.R;
+import com.example.instagram_clone.view.menu.MenuAddFeed;
+import com.example.instagram_clone.view.appbar.MenuAddFeedAppBar;
+import com.example.instagram_clone.view.menu.MenuFind;
+import com.example.instagram_clone.view.appbar.MenuFindAppBar;
+import com.example.instagram_clone.view.menu.MenuHeart;
+import com.example.instagram_clone.view.appbar.MenuHeartAppBar;
+import com.example.instagram_clone.view.menu.MenuHome;
+import com.example.instagram_clone.view.appbar.MenuHomeAppBar;
+import com.example.instagram_clone.view.menu.MenuProfile;
+import com.example.instagram_clone.view.appbar.MenuProfileAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 

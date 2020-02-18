@@ -1,4 +1,4 @@
-package com.example.instagram_clone;
+package com.example.instagram_clone.models;
 
 import java.io.Serializable;
 

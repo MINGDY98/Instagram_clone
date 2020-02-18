@@ -1,4 +1,4 @@
-package com.example.instagram_clone;
+package com.example.instagram_clone.view.appbar;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +10,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.instagram_clone.R;
+import com.example.instagram_clone.view.menu.MenuAddFeed;
 
 public class MenuAddFeedAppBar extends Fragment {
     private TextView share_feed;//feed공유하는 텍스트뷰버튼

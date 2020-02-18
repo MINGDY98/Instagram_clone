@@ -1,4 +1,4 @@
-package com.example.instagram_clone;
+package com.example.instagram_clone.view.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.instagram_clone.R;
+import com.example.instagram_clone.models.DtoProfile;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

@@ -1,4 +1,4 @@
-package com.example.instagram_clone;
+package com.example.instagram_clone.view.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.instagram_clone.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseNetworkException;
@@ -32,7 +33,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        mAuth = FirebaseAuth.getInstance();
 
         put_email = findViewById(R.id.EditText_email);
         put_pwd = findViewById(R.id.EditText_password);
@@ -60,6 +60,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void loginStart(String email, String password){//로그인하기
+        mAuth = FirebaseAuth.getInstance();
         mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {

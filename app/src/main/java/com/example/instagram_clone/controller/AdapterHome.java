@@ -1,46 +1,47 @@
-package com.example.instagram_clone;
+package com.example.instagram_clone.controller;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.instagram_clone.R;
+import com.example.instagram_clone.models.DtoFeed;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class AdapterHome extends RecyclerView.Adapter<AdapterHome.MyViewHolder> {
     private List<DtoFeed> mDataset;
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-
+    static class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView user_name;
         public SimpleDraweeView feed_img;
         public TextView feed_info;
         public MyViewHolder(View v) {
             super(v);
             user_name = v.findViewById(R.id.user_name);
-            feed_img = v.findViewById(R.id.ImageView_feed_img);
+            feed_img = v.findViewById(R.id.SimpleDraweeView_feed_img);
             feed_info = v.findViewById(R.id.TextView_feed_Info);
         }
     }
 
-    public MyAdapter(List<DtoFeed> myDataset, Context context) {
+    public AdapterHome(List<DtoFeed> myDataset, Context context) {
         mDataset = myDataset;
         Fresco.initialize(context);
     }
 
     @Override
-    public MyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                                     int viewType) {
+    public AdapterHome.MyViewHolder onCreateViewHolder(ViewGroup parent,
+                                                       int viewType) {
 
         CardView v = (CardView) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recyclerview_activity, parent, false);

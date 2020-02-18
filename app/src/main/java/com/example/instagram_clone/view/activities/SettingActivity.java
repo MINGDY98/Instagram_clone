@@ -1,4 +1,4 @@
-package com.example.instagram_clone;
+package com.example.instagram_clone.view.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.instagram_clone.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SettingActivity extends AppCompatActivity {

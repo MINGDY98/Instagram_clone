@@ -1,4 +1,4 @@
-package com.example.instagram_clone;
+package com.example.instagram_clone.view.menu;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -26,6 +26,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.instagram_clone.R;
+import com.example.instagram_clone.models.DtoFeed;
+import com.example.instagram_clone.view.activities.MainActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,22 +51,28 @@ import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
 
+/**
+ * java 명명
+ *
+ * 객체타입_위치_역할
+ * ex)MenuAddFeed activity(fragment)에 존재하는 이미지를 불러오는 이미지 버튼
+ * -> ImgBtnAddFeedLoadImg
+ * */
 public class MenuAddFeed extends Fragment {
-
-
     private static final int REQUEST_ID_MULTIPLE_PERMISSIONS    = 3; //여러 권한체크를 위한
     private static final int READ_GALLERY_CODE                  = 42;//갤러리에서 이미지 가져오기 위한
     private static final int REQUEST_TAKE_PHOTO                 = 1; //카메라 촬영을 위한
-    private Uri uri=null;//앨범선택했을때 사진의 uri
+    private Uri uri = null;//앨범선택했을때 사진의 uri
     private ArrayList<String> permissions = new ArrayList();
     private View view;
-    private ImageButton load_feed_image;//이미지 미리보기
+    private ImageButton loadFeedImage;//이미지 미리보기
+
     private EditText feed_contents=null;//피드내용
 //    Uri uri=null;//앨범선택했을때 사진의 uri
     private String currentPhotoPath;
     String downloadUrl="";//안쓸수도
-    private StorageReference mStorageRef;//firebase storage사용
-    private FirebaseDatabase firebaseDatabase =FirebaseDatabase.getInstance();//firebase database사용
+    private StorageReference mStorageRef;//firebase storage 사용
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();//firebase database사용
     private String parent=null;//힘겹게 얻은 user_name
     String feed_content=null;//입력받은 feed_content
 
@@ -80,8 +89,10 @@ public class MenuAddFeed extends Fragment {
         view = inflater.inflate(R.layout.fragment_add_feed, container, false);
         //카메라 & 외부저장소 접근 권한 가져오기
         checkPermission();
-        load_feed_image = view.findViewById(R.id.ImageButton_load_feed_image);
-        load_feed_image.setOnClickListener(new View.OnClickListener() {
+        feed_contents = view.findViewById(R.id.EditText_feed_contents);
+        loadFeedImage = view.findViewById(R.id.ImageButton_load_feed_image);
+
+        loadFeedImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 alertDialog();//앨범선택,사진촬영,취소 용 alertDialog
@@ -89,7 +100,7 @@ public class MenuAddFeed extends Fragment {
         });
 
         mStorageRef = FirebaseStorage.getInstance().getReference();//firebase storage 사용
-        feed_contents = view.findViewById(R.id.EditText_feed_contents);
+
         feed_contents.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -104,8 +115,10 @@ public class MenuAddFeed extends Fragment {
             public void afterTextChanged(Editable s) {
             }
         });
+
         return view;
     }
+
 
     public String getFeed_content() {
         return feed_content;
@@ -181,8 +194,8 @@ public class MenuAddFeed extends Fragment {
             if(resultData!=null) {
                 uri = null;
                 uri = resultData.getData();
-                load_feed_image.setImageURI(uri);//이미지버튼에 붙이기
-                load_feed_image.setScaleType(ImageButton.ScaleType.FIT_XY);
+                loadFeedImage.setImageURI(uri);//이미지버튼에 붙이기
+                loadFeedImage.setScaleType(ImageButton.ScaleType.FIT_XY);
             }else{
                 Toast.makeText(getActivity(),"업로드할 이미지를 선택하시오",Toast.LENGTH_SHORT).show();
             }
@@ -190,7 +203,7 @@ public class MenuAddFeed extends Fragment {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
             if(resultData!=null) {
                 Bitmap imageBitmap = (Bitmap) resultData.getExtras().get("data");
-                load_feed_image.setImageBitmap(imageBitmap);
+                loadFeedImage.setImageBitmap(imageBitmap);
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 SaveBitmapToFileCache(imageBitmap, getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath(),
                         timeStamp+".jpg");
@@ -222,7 +235,7 @@ public class MenuAddFeed extends Fragment {
         }
      }
 
-    protected void uploadFile() {//firebase storage에 삽입
+    public void uploadFile() {//firebase storage에 삽입
 
             StorageReference storageReference = FirebaseStorage.getInstance()
                     .getReference()

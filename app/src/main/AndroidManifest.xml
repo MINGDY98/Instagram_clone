@@ -24,16 +24,16 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"></meta-data>
         </provider>
-        <activity android:name=".LoginActivity">
+        <activity android:name=".view.activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".JoinActivity"/>
-        <activity android:name=".SettingActivity"/>
+        <activity android:name=".view.activities.MainActivity" />
+        <activity android:name=".view.activities.JoinActivity"/>
+        <activity android:name=".view.activities.SettingActivity"/>
     </application>
 
 </manifest>

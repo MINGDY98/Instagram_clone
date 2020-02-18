@@ -1,4 +1,4 @@
-package com.example.instagram_clone;
+package com.example.instagram_clone.view.appbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,9 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.instagram_clone.R;
+import com.example.instagram_clone.view.activities.SettingActivity;
 
 public class MenuProfileAppBar extends Fragment {
 
@@ -24,7 +27,7 @@ public class MenuProfileAppBar extends Fragment {
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//프로필 fragment의 menu를 누를시 설정창으로
-                startActivity(new Intent(getContext(),SettingActivity.class));
+                startActivity(new Intent(getContext(), SettingActivity.class));
             }
         });
 

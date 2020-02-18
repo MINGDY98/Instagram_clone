@@ -1,4 +1,4 @@
-package com.example.instagram_clone;
+package com.example.instagram_clone.view.menu;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,13 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class MenuHeartAppBar extends Fragment {
+import com.example.instagram_clone.R;
+
+public class MenuHeart extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.toolbar_heart, container, false);
+        return inflater.inflate(R.layout.fragment_heart, container, false);
     }
 }
-
 
